@@ -1,1 +1,1 @@
-demo of `whinepad3` is available at http://www.whinepad.com/
+Fork of code for React Up & Running. Learning purposes only.
