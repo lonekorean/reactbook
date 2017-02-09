@@ -13,34 +13,55 @@
     <div id="app">
       <!-- my app renders here -->
     </div>
-    <script src="react/build/react.js"></script>
+    <script src="react/build/react-with-addons.js"></script>
     <script src="react/build/react-dom.js"></script>
     <script>
+    var logMixin = {
+        componentWillUpdate: function() {
+            console.log('componentWillUpdate', arguments);
+        }
+    };
+
       var TextAreaCounter = React.createClass({
+        mixins: [logMixin],
 
         propTypes: {
-          text: React.PropTypes.string,
+          defaultValue: React.PropTypes.string,
         },
-        
+
         getDefaultProps: function() {
           return {
             text: '',
           };
         },
 
+        getInitialState: function() {
+            return {
+                text: this.props.defaultValue
+            }
+        },
+
+        _textChange: function(ev) {
+            this.setState({
+                text: ev.target.value
+            });
+        },
+
+
         render: function() {
           return React.DOM.div(null,
             React.DOM.textarea({
-              defaultValue: this.props.text,
+              value: this.state.text,
+              onChange: this._textChange
             }),
-            React.DOM.h3(null, this.props.text.length)
+            React.DOM.h3(null, this.state.text.length)
           );
         }
       });
 
-      ReactDOM.render(
+      var tac = ReactDOM.render(
         React.createElement(TextAreaCounter, {
-          text: "Bob",
+          defaultValue: 'Willardo',
         }),
         document.getElementById("app")
       );
